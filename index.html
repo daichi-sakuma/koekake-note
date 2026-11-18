@@ -1,45 +1,345 @@
-<!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#12253a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="活動ノート"><meta name="description" content="活動前チェック・メンタル回復・振り返りを記録する個人用ノート"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./apple-touch-icon.png"><title>声かけ活動ノート</title><style>
-:root{font-family:system-ui,-apple-system,'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;color:#182738;background:#f4f6f9}*{box-sizing:border-box}body{margin:0}button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #268cb4;outline-offset:2px}.app{max-width:700px;margin:auto;min-height:100vh;padding:20px 16px 100px}.header{background:#12253a;color:white;padding:22px 20px;border-radius:18px}.eyebrow{font-size:11px;letter-spacing:.15em;color:#9dc4dc}.header h1{font-size:23px;margin:9px 0 8px}.header p{font-size:13px;color:#d0dce9;margin:0;line-height:1.65}.tabs{position:sticky;top:0;z-index:5;padding:8px 0;background:#f4f6f9;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:15px 0}.tabs button{border:0;background:#e4e9f0;color:#3e5369;border-radius:12px;padding:12px 3px;font-weight:700;font-size:13px}.tabs button.active{background:#1a5479;color:white}.panel{display:none}.panel.active{display:block}.card{background:white;border:1px solid #e1e6ed;border-radius:16px;padding:17px;margin:13px 0;box-shadow:0 2px 8px #14233808}.card h2{font-size:17px;margin:0 0 11px}.card h3{font-size:15px;margin:18px 0 9px}.sub{font-size:13px;line-height:1.7;color:#627388}.progress{height:9px;border-radius:99px;background:#e5ebf0;overflow:hidden;margin:12px 0}.progress span{display:block;height:100%;width:0;background:#2784a5;transition:width .15s}.progressmeta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#54687a}.check{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-bottom:1px solid #edf0f4;line-height:1.65;font-size:14px}.check:last-child{border-bottom:0}.check input{margin-top:4px;min-width:20px;min-height:20px;accent-color:#1a668d}.check b{color:#163c58}.sectionNote{padding:12px;background:#eef6fa;border-radius:11px;line-height:1.7;font-size:13px}.primary,.secondary{border:0;border-radius:11px;padding:12px 16px;font-weight:700}.primary{background:#1a5479;color:white}.secondary{background:#e9eef3;color:#24445c}.actions{display:flex;gap:8px;flex-wrap:wrap}.actions>*{flex:1}.field{display:block;margin:12px 0}.field span{display:block;font-size:13px;font-weight:700;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;padding:11px;border:1px solid #ced9e3;border-radius:10px;background:#fff;color:#182738}.field textarea{min-height:95px;resize:vertical;line-height:1.6}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.moodList{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.moodList button{background:#f2f5f8;border:1px solid #dce4eb;border-radius:11px;padding:13px 8px;color:#2b485b;font-weight:700;font-size:13px}.moodList button.active{background:#dceef7;border-color:#3087a5}.quote{background:#f0f7f9;border-left:4px solid #2784a5;padding:14px;border-radius:10px;line-height:1.9;font-size:14px}.small{font-size:12px;color:#687b8c;line-height:1.6}.record{border:1px solid #e0e7ed;border-radius:12px;padding:12px;margin:9px 0}.record h3{margin:0 0 8px}.record p{white-space:pre-wrap;font-size:13px;line-height:1.65;margin:5px 0}.record button{padding:7px 9px;border-radius:7px;border:1px solid #d8e1e9;background:#f6f8fa;color:#314f62}.footer{font-size:12px;color:#7c8793;text-align:center;padding:10px}.hide{display:none!important}@media(max-width:360px){.app{padding:12px 10px 92px}.moodList{grid-template-columns:1fr}}
-</style></head><body><main class="app">
-<header class="header"><div class="eyebrow">PERSONAL ACTIVITY NOTE</div><h1>声かけ活動ノート</h1><p>準備・気持ちの立て直し・振り返りを一つに。<br>落ち着いて、明るく、相手を尊重して話す。</p></header>
-<nav class="tabs" aria-label="メニュー"><button class="active" data-tab="prep">活動前</button><button data-tab="mental">メンタル</button><button data-tab="review">振り返り</button></nav>
-<section id="prep" class="panel active"><article class="card"><h2>声かけ直前の最重要5項目</h2><p class="sub">現場ではこの5項目だけ見れば十分です。</p><div class="progressmeta"><strong>チェック進捗</strong><span id="quickCount">0 / 5</span></div><div class="progress"><span id="quickBar"></span></div><div id="quickItems"></div><div class="actions" style="margin-top:12px"><button class="secondary" id="resetChecks">チェックをリセット</button></div></article>
-<article class="card"><h2>詳細チェックリスト</h2><p class="sub">時間があるときに、準備・声かけ・対応を順番に確認します。</p><div id="detailItems"></div></article>
-<article class="card"><h2>今日の意識</h2><div class="quote"><strong>「無視されないこと」よりも「安心して話せる雰囲気をつくること」。</strong><br>緊張しても構わない。結果よりも、自分の表情・声・姿勢・距離感を意識する。<br>相手の反応はコントロールできない。<br>笑顔で、明るく、落ち着いて、相手を尊重して話しかける。</div></article></section>
-<section id="mental" class="panel"><article class="card"><h2>メンタルがぶれたとき</h2><p class="sub">今の状態を選ぶと、立て直し方を表示します。</p><div id="moods" class="moodList"></div><div id="moodAdvice" class="quote" style="margin-top:14px"></div></article>
-<article class="card"><h2>活動中の基本ルール</h2><div class="sectionNote">相手が立ち去る・距離を取る・視線を避けるなどの反応を示したら追いかけない。無理に会話を続けず、相手の意思を尊重する。</div><p class="sub">無視されたことと自分の価値は別です。振り返るのは改善可能な行動だけで十分です。</p></article>
-<article class="card"><h2>自分用の立て直しメモ</h2><label class="field"><span>自分に効く言葉・コンサルで学んだこと</span><textarea id="customMental" placeholder="例：無視されても必要以上に落ち込まない。最初は笑顔と声量だけ意識する。"></textarea></label><p class="small">入力内容はこの端末のブラウザに自動保存されます。</p></article></section>
-<section id="review" class="panel"><article class="card"><h2>活動後の振り返り</h2><label class="field"><span>日付</span><input type="date" id="date"></label><div class="two"><label class="field"><span>声かけ件数</span><input id="approaches" type="number" min="0" inputmode="numeric" placeholder="0"></label><label class="field"><span>会話できた件数</span><input id="conversations" type="number" min="0" inputmode="numeric" placeholder="0"></label></div><label class="field"><span>今日の活動テーマ</span><input id="theme" placeholder="一人で堂々と声をかける"></label><label class="field"><span>今日できたこと・よかったこと</span><textarea id="good" placeholder="例：笑顔で第一声を出せた。声量を改善できた。"></textarea></label><label class="field"><span>うまくいかなかったこと・原因</span><textarea id="difficult" placeholder="例：無視が続いて緊張し、声が小さくなった。"></textarea></label><label class="field"><span>改善点・次回の行動目標</span><textarea id="next" placeholder="例：目元を柔らかくして、焦らず話す。"></textarea></label><label class="field"><span>自由メモ</span><textarea id="free" placeholder="気づいたこと、会話の振り返りなど"></textarea></label><div class="actions"><button class="primary" id="saveRecord">振り返りを保存</button><button class="secondary" id="clearForm">入力欄をクリア</button></div><p id="saveStatus" class="small" role="status"></p></article><article class="card"><h2>過去の活動履歴</h2><div id="records"></div></article><article class="card"><h2>バックアップ</h2><p class="sub">記録とメンタルメモは、この端末のブラウザに保存します。ブラウザのデータ削除や機種変更に備えて、定期的に書き出してください。</p><div class="actions"><button id="exportBtn" class="secondary">データを書き出す</button><button id="importBtn" class="secondary">データを読み込む</button><input id="importFile" class="hide" type="file" accept="application/json,.json"></div></article></section>
-<div class="footer">個人用の活動支援ツールです。相手の意思と安全を尊重してください。</div></main>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#14283c"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="活動ノート"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./apple-touch-icon.png"><link rel="icon" href="./icon-192.png"><title>声かけ活動ノート</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif;color:#203248;background:#f3f6f9}*{box-sizing:border-box}body{margin:0}button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #458cb3;outline-offset:2px}.app{max-width:640px;margin:auto;padding:13px 13px 105px}.top{background:#14283c;color:#fff;padding:20px;border-radius:19px;margin-bottom:12px}.top small{letter-spacing:.15em;color:#add2ea}.top h1{font-size:22px;margin:5px 0}.top p{margin:0;font-size:12px;color:#d5e3ed}.nav{position:sticky;top:0;z-index:10;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;background:#f3f6f9;padding:8px 0}.nav button{font-size:10px;padding:12px 1px;border:0;border-radius:9px;color:#4e6174;background:#e3e9ee;font-weight:700}.nav button.on{background:#1b5b7c;color:white}.panel{display:none}.panel.on{display:block}.card{background:white;border:1px solid #e0e6eb;border-radius:15px;padding:16px;margin-bottom:12px;box-shadow:0 2px 10px #122b4107}.card h2{font-size:17px;margin:0 0 12px}.card h3{font-size:15px;margin:13px 0 8px}.hint{font-size:12px;color:#68798a;line-height:1.65;margin:6px 0 12px}.field{display:block;margin:12px 0}.field>span{display:block;font-size:12px;font-weight:700;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid #cbd7e2;border-radius:9px;padding:11px;background:#fff;color:#203248;min-width:0}.field textarea{min-height:76px;resize:vertical;line-height:1.6}.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}.grow{flex:1}.cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.btn{background:#1b5b7c;color:#fff;border:0;padding:12px 14px;border-radius:10px;font-weight:700;min-height:44px}.btn.alt{background:#eaf0f4;color:#25475e}.btn.danger{color:#922f35;background:#fff0f1}.btn:disabled{opacity:.4}.wide{width:100%}.stat{background:#eef4f8;border-radius:10px;padding:12px;text-align:center}.stat strong{font-size:22px;display:block}.stat span{font-size:11px;color:#667889}.counters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.counter{border:1px solid #cbdce7;background:#edf4f9;border-radius:16px;min-height:105px;touch-action:manipulation;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#20384d}.counter.main{background:#195777;color:white;border-color:#195777}.counter b{font-size:14px}.counter strong{font-size:36px;line-height:1.2;font-variant-numeric:tabular-nums}.counter small{font-size:10px;opacity:.76}.counter:active{transform:scale(.97)}.note{background:#eef4f8;border-radius:10px;padding:13px;line-height:1.75;font-size:13px;white-space:pre-wrap}.muted{font-size:12px;color:#697c8e}.check{display:flex;gap:10px;border-bottom:1px solid #edf1f5;padding:11px 0;font-size:13px;line-height:1.65}.check input{width:20px;height:20px;flex-shrink:0;accent-color:#1b6a90}.progress{height:7px;background:#e4edf3;border-radius:10px;overflow:hidden}.progress>div{height:100%;background:#247c9e;width:0}.listitem{border:1px solid #e0e6ec;border-radius:10px;padding:12px;margin:8px 0;white-space:pre-wrap;line-height:1.7;font-size:13px;overflow-wrap:anywhere}.listitem .row{margin-top:9px}.listitem h3{margin:0 0 7px}.pill{display:inline-block;font-size:11px;background:#e9f0f6;padding:4px 9px;border-radius:99px;color:#38617d}.kicker{color:#56788e;font-size:11px;font-weight:700}.bars{display:grid;gap:12px}.barline{display:flex;justify-content:space-between;font-size:13px}.bar{background:#e6edf2;border-radius:99px;height:8px;overflow:hidden}.bar>div{background:#246c92;height:100%}footer{text-align:center;color:#7a8896;font-size:11px;margin-top:20px}.hidden{display:none!important}@media(max-width:380px){.nav button{font-size:9px}.counter{min-height:96px}.counter strong{font-size:32px}}@media(min-width:530px){.counters{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style></head><body><main class="app"><header class="top"><small>ACTION NOTE</small><h1>声かけ活動ノート</h1><p>記録は日付と場所ごとに自動保存。相手の意思を尊重して行動する。</p></header><nav class="nav" id="nav"><button data-tab="activity" class="on">活動中</button><button data-tab="prepare">活動前</button><button data-tab="mental">メンタル</button><button data-tab="phrases">5フレーズ</button><button data-tab="stats">集計</button><button data-tab="review">振り返り</button><button data-tab="settings">設定</button></nav>
+<section id="activity" class="panel on"><div class="card"><div class="row"><h2 class="grow">ワンタップ活動記録</h2><span class="pill" id="activeDate"></span></div><div class="row"><label class="field grow"><span>現在の活動場所</span><select id="locationSelect"></select></label><button class="btn alt" id="newLocation">＋場所</button></div><p class="hint">大きな枠のどこを押しても＋1。画面を開いた日付の記録を表示します。操作は立ち止まってから行ってください。</p><div id="counterGrid" class="counters"></div><p id="counterStatus" class="muted" role="status" aria-live="polite">記録はこの端末に自動保存されます。</p><button class="btn alt wide" id="undoCounter">↶ 直前の操作を取り消す</button><p id="unclassified" class="muted"></p></div><div class="card"><h2>声かけ直前の5秒チェック</h2><div class="note">斜め前 ／ 十分な距離 ／ 自然な目線 ／ 柔らかい笑顔 ／ 明るい声</div><p class="hint">相手が立ち去る、距離を取る、反応しない場合は追いかけずに終了します。</p></div></section>
+<section id="prepare" class="panel"><div class="card"><h2>ストリートナンパ実践チェックリスト</h2><div class="row"><span class="grow muted">チェック達成状況</span><b id="checkCount">0/11</b></div><div class="progress"><div id="checkBar"></div></div><p class="hint">活動前の確認として使います。チェック状態は日付が変わると自動でリセットされます。</p><div id="practiceChecks"></div><button class="btn alt wide" id="clearChecks">チェックをリセット</button></div><div class="card"><h2>今日の意識</h2><div class="note">まずは「位置取り・声量・笑顔・相手の反応を見る」を重点的に確認する。
+一度にすべてを直そうとせず、今日の改善項目を一つ決める。明確な拒否や不快そうな反応があれば追わずに終了する。</div></div></section>
+<section id="mental" class="panel"><div class="card"><h2>メンタルを立て直す</h2><label class="field"><span>今の気持ち</span><select id="moodSelect"></select></label><div id="moodText" class="note"></div></div><div class="card"><h2>モテる男の掟261</h2><p class="hint">チバ氏の記事に掲載された261項目から、重複を避けながら1件ずつランダム表示します。原文の主張を収録したものであり、相手の同意と明確な拒否を最優先してください。</p><div id="ruleDisplay" class="note"></div><button class="btn wide" id="randomRule" style="margin-top:10px">別の掟をランダム表示</button></div><div class="card"><h2>チバさんの言葉</h2><p class="hint">投稿の文章は後から「設定」で登録します。未登録の名言を創作して表示することはありません。</p><div id="quoteDisplay" class="note">まだ登録されていません。</div><button class="btn wide" id="randomQuote" style="margin-top:10px">別の名言をランダム表示</button></div></section>
+<section id="phrases" class="panel"><div class="card"><h2>5フレーズ・トーク集</h2><p class="hint">登録したパターンを1セットずつ表示。会話の前に参考にし、相手の反応に応じて自然に話します。</p><div id="phraseDisplay" class="note">まだパターンが登録されていません。</div><button class="btn wide" id="randomPhrase" style="margin-top:10px">別のパターンをランダム表示</button></div><div class="card"><h2>パターン一覧</h2><div id="phraseLibrary"></div></div></section>
+<section id="stats" class="panel"><div class="card"><h2>集計・分析</h2><div class="cols2"><label class="field"><span>期間</span><select id="period"><option value="today">今日</option><option value="week">直近7日</option><option value="month" selected>今月</option><option value="all">全期間</option></select></label><label class="field"><span>活動場所</span><select id="statsPlace"></select></label></div><div id="statsGrid" class="cols2"></div><h3>声かけ結果の割合</h3><div id="rates" class="bars"></div><h3>改善のヒント</h3><div class="note" id="insight"></div><p class="hint">結果の割合だけで原因は断定できません。件数が少ない場合は参考程度にし、時間帯や相手の都合も考慮します。</p><h3>実践チェックの達成傾向</h3><div id="practiceStats" class="bars"></div><p class="hint">活動後の振り返りで記録した11項目を、達成率の低い順に表示します。記録回数が少ない間は参考値です。</p></div><div class="card"><h2>日付・場所別の履歴</h2><div id="dailyTable"></div><button class="btn alt wide" id="exportCsv">集計データをCSVで出力</button></div></section>
+<section id="review" class="panel"><div class="card"><h2>活動後の振り返り</h2><div class="cols2"><label class="field"><span>活動日</span><input type="date" id="reviewDate"></label><label class="field"><span>活動場所</span><select id="reviewPlace"></select></label></div><p class="muted" id="reviewCountSummary"></p><label class="field"><span>今日のテーマ</span><input id="reviewTheme" placeholder="例：一人で堂々と声をかける"></label><h3>11項目の振り返り</h3><p class="hint">実際にできた項目へチェックしてください。保存すると集計画面の達成傾向に反映されます。</p><div id="reviewPracticeChecks"></div><label class="field"><span>できたこと・成功体験</span><textarea id="reviewGood"></textarea></label><label class="field"><span>課題・その原因</span><textarea id="reviewDifficult"></textarea></label><label class="field"><span>次回の改善策</span><textarea id="reviewNext"></textarea></label><label class="field"><span>自由メモ</span><textarea id="reviewFree"></textarea></label><button class="btn wide" id="saveReview">この日・場所の振り返りを保存</button><p id="reviewStatus" class="muted"></p></div></section>
+<section id="settings" class="panel"><div class="card"><h2>設定・編集</h2><p class="hint">登録内容はアプリ内で直接編集できます。通常のメモ追加ではGitHubへの再アップロードは不要です。</p></div><div class="card"><h2>チバさんの名言を編集</h2><label class="field"><span>名言の本文</span><textarea id="quoteInput" placeholder="まとめた投稿の文章を入力"></textarea></label><button class="btn wide" id="addQuote">名言を追加</button><p class="hint">登録した名言はメンタル画面でランダム表示されます。</p><div id="quoteLibrary"></div></div><div class="card"><h2>5フレーズのパターンを編集</h2><label class="field"><span>パターン名</span><input id="editPhraseName" placeholder="誠実系・前から など"></label><div id="phraseEditors"></div><div class="row"><button class="btn grow" id="savePhrase">パターンを保存</button><button class="btn alt" id="clearPhrase">新規入力に戻す</button></div><p class="muted" id="phraseEditStatus"></p><div id="phraseManage"></div></div><div class="card"><h2>実践チェックリストの編集</h2><p class="hint">各グループ名と「項目名｜説明」を編集できます。過去の集計との対応を保つため、各グループの項目数は変更できません。</p><div id="practiceEditors"></div><button class="btn wide" id="saveChecks">チェックリストを保存</button></div><div class="card"><h2>メンタル回復の文章を編集</h2><div id="moodEditors"></div><button class="btn wide" id="saveMoods">メンタル文章を保存</button></div><div class="card"><h2>データ管理・バックアップ</h2><p class="hint">すべての活動履歴、名言、5フレーズ、設定をJSONファイルに保存できます。端末変更時はそのファイルを読み込んでください。</p><div class="row"><button class="btn alt grow" id="exportBackup">バックアップ保存</button><button class="btn alt grow" id="importBackup">バックアップ復元</button></div><input type="file" accept=".json,application/json" id="backupFile" class="hidden"><p class="hint">保存データは現在のブラウザ内だけです。別端末には自動同期されません。公開GitHubに個人の活動記録をアップロードしないでください。</p></div></section><footer>安全な場所で立ち止まって操作してください。相手の意思と距離感を尊重しましょう。</footer></main>
 <script>
 'use strict';
-const KEY='voicecheck.v1';
-const initial={checks:{},mental:'',records:[],draft:{}};
-function load(){try{const raw=JSON.parse(localStorage.getItem(KEY));return raw&&typeof raw==='object'?{...initial,...raw}:structuredClone(initial)}catch{return structuredClone(initial)}}
-let state=load();
-function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));return true}catch{alert('端末に保存できませんでした。ストレージの設定を確認してください。');return false}}
-const quick=[['斜め前','相手から姿が見える位置。進路をふさがない。'],['距離','約1.2m以上。腕を伸ばしても届かない距離。'],['目線','自然にアイコンタクト。凝視しない。'],['笑顔','口角・頬・目元を柔らかく。'],['声量','明るく、はっきり、堂々と。']];
-const groups=[['① 声をかける前の準備',['髪型・眉毛・服装・口臭など、清潔感は問題ないか？','深呼吸して、肩・顔・眉間の力を抜いたか？','口角と頬を軽く上げ、目元も柔らかい自然な笑顔になっているか？','「無視されるかも」ではなく、「楽しく会話しよう」という意識になっているか？','声が小さくならないよう、普段より少し大きく明るい声を意識しているか？']],['② 声かけ直前のチェック',['位置：女性の死角や真後ろではなく、姿が見える斜め前から声をかける。','距離：約1.2m以上、腕を伸ばしても届かない距離を確保する。','視線：相手の視界に入り、自然に目が合うタイミングで声をかける。凝視しない。','表情：口角と頬を軽く上げ、目元の力を抜いて優しく微笑む。','声量：街の雑音に負けず、相手にはっきり聞こえる声を出す。','姿勢：背筋を伸ばし、堂々と落ち着いた態度で話しかける。進路をふさがない。']],['③ 声をかけた瞬間',['第一声は明るく、はっきりと、自然な笑顔で。','最初の目的は、相手の反応を確認すること。いきなり面白いことを言おうとしない。','緊張しても早口にならず、落ち着いて話す。','相手の表情・反応を確認しながら会話を進める。','相手が話してくれたら、笑顔で反応し、会話を楽しむ。']],['④ 無視されたときの対応',['無視されても必要以上に落ち込まない。','声量・距離・位置・表情など、改善できる部分だけ振り返る。','相手が立ち去る、距離を取る、視線を避ける場合は追いかけない。','無理に会話を続けようとせず、相手の意思を尊重する。','一度の結果にこだわらず、次の行動に気持ちを切り替える。']]];
-function makeCheck(id,label){const el=document.createElement('label');el.className='check';const box=document.createElement('input');box.type='checkbox';box.checked=!!state.checks[id];box.addEventListener('change',()=>{state.checks[id]=box.checked;persist();renderProgress()});const txt=document.createElement('span');txt.textContent=label;el.append(box,txt);return el}
-function renderChecks(){const q=document.getElementById('quickItems');q.replaceChildren();quick.forEach(([title,desc],i)=>q.appendChild(makeCheck('q'+i,title+'：'+desc)));const d=document.getElementById('detailItems');d.replaceChildren();groups.forEach(([heading,items],j)=>{const h=document.createElement('h3');h.textContent=heading;d.appendChild(h);items.forEach((label,i)=>d.appendChild(makeCheck('d'+j+'-'+i,label)))});renderProgress()}
-function renderProgress(){const n=quick.filter((_,i)=>state.checks['q'+i]).length;document.getElementById('quickCount').textContent=n+' / 5';document.getElementById('quickBar').style.width=(n*20)+'%'}
-document.getElementById('resetChecks').addEventListener('click',()=>{state.checks={};persist();renderChecks()});
-document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-tab]').forEach(v=>v.classList.toggle('active',v===b));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===b.dataset.tab));window.scrollTo({top:0,behavior:'instant'})}));
-const moods=[['fear','無視されるのが怖い','無視は自分の価値を示すものではありません。相手には応じない自由があります。結果を追うより、落ち着いて丁寧に話しかけることに集中しましょう。'],['tense','緊張して笑顔が出ない','ゆっくり息を吐き、眉間・顎・肩の力を抜きます。小さく笑った直後の柔らかい目元を思い出してください。笑顔を固定する必要はありません。'],['down','反応が悪く落ち込んだ','一度の反応だけで自分全体を評価する必要はありません。声量・表情・位置など、改善できることを一つだけ確認しましょう。'],['tired','疲れた・やる気が出ない','無理に続ける必要はありません。少し休憩して水分を取り、体調に応じて活動を終えることも選択肢です。'],['rush','焦って早口になる','まず息を長く吐き、最初の一言を一拍ゆっくり伝えます。相手の反応を見てから次の言葉を話しましょう。']];
-let currentMood='fear';function renderMoods(){const root=document.getElementById('moods');root.replaceChildren();moods.forEach(([key,title])=>{const b=document.createElement('button');b.textContent=title;b.className=key===currentMood?'active':'';b.addEventListener('click',()=>{currentMood=key;renderMoods()});root.appendChild(b)});document.getElementById('moodAdvice').textContent=moods.find(x=>x[0]===currentMood)[2]}
-const mental=document.getElementById('customMental');mental.value=state.mental||'';mental.addEventListener('input',()=>{state.mental=mental.value;persist()});
-const fields=['date','approaches','conversations','theme','good','difficult','next','free'];
-function localDate(){const now=new Date();const y=now.getFullYear();return `${y}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`}
-function fillForm(obj){fields.forEach(k=>document.getElementById(k).value=obj?.[k]??(k==='date'?localDate():''))}
-fillForm(state.draft);fields.forEach(k=>document.getElementById(k).addEventListener('input',()=>{state.draft=readForm();persist()}));
-function readForm(){return Object.fromEntries(fields.map(k=>[k,document.getElementById(k).value]))}
-function safeNumber(v){return v===''?'':Math.max(0,Number.parseInt(v,10)||0)}
-function renderRecords(){const root=document.getElementById('records');root.replaceChildren();if(!state.records.length){const p=document.createElement('p');p.className='sub';p.textContent='まだ記録がありません。活動後に振り返りを保存してください。';root.appendChild(p);return}state.records.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).forEach(r=>{const card=document.createElement('div');card.className='record';const h=document.createElement('h3');h.textContent=(r.date||'日付なし')+' の振り返り';card.appendChild(h);const intro=document.createElement('p');intro.textContent=`声かけ ${r.approaches||0}件 ／ 会話 ${r.conversations||0}件`;card.appendChild(intro);[['テーマ','theme'],['よかったこと','good'],['課題と原因','difficult'],['次回の行動目標','next'],['自由メモ','free']].forEach(([label,key])=>{if(r[key]){const p=document.createElement('p');p.textContent=label+'：'+r[key];card.appendChild(p)}});const actions=document.createElement('div');actions.className='actions';const edit=document.createElement('button');edit.textContent='編集';edit.addEventListener('click',()=>{fillForm(r);state.draft=readForm();persist();document.getElementById('saveStatus').textContent='編集中：保存すると同じ日付の記録を更新します。';document.getElementById('review').scrollIntoView({behavior:'smooth'})});const del=document.createElement('button');del.textContent='削除';del.addEventListener('click',()=>{if(confirm(r.date+' の記録を削除しますか？')){state.records=state.records.filter(x=>x.date!==r.date);persist();renderRecords()}});actions.append(edit,del);card.appendChild(actions);root.appendChild(card)})}
-document.getElementById('saveRecord').addEventListener('click',()=>{const form=readForm();if(!/^\d{4}-\d{2}-\d{2}$/.test(form.date)){alert('日付を入力してください。');return}form.approaches=safeNumber(form.approaches);form.conversations=safeNumber(form.conversations);if(form.approaches!==''&&form.conversations!==''&&form.conversations>form.approaches){alert('会話件数は声かけ件数以下にしてください。');return}state.records=state.records.filter(r=>r.date!==form.date);state.records.push(form);state.draft=form;if(persist()){document.getElementById('saveStatus').textContent=form.date+' の記録を保存しました。';renderRecords()}});
-document.getElementById('clearForm').addEventListener('click',()=>{if(confirm('入力中の内容をクリアしますか？ 保存済みの記録は削除しません。')){fillForm({date:localDate()});state.draft=readForm();persist();document.getElementById('saveStatus').textContent='入力欄をクリアしました。'}});
-document.getElementById('exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),data:state},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='声かけ活動ノート_'+localDate()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
-document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());document.getElementById('importFile').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>3*1024*1024)throw Error('ファイルが大きすぎます');const obj=JSON.parse(await file.text());const data=obj.data;if(obj.version!==1||!data||typeof data!=='object'||!Array.isArray(data.records)||typeof data.checks!=='object'||typeof data.mental!=='string')throw Error('対応していないファイル形式です');if(!confirm('現在の記録を読み込みデータで置き換えますか？'))return;state={checks:data.checks||{},mental:data.mental||'',records:data.records,draft:data.draft||{}};persist();mental.value=state.mental;fillForm(state.draft);renderChecks();renderRecords();alert('データを読み込みました')}catch(err){alert('読み込みに失敗しました：'+err.message)}finally{e.target.value=''}});
-renderChecks();renderMoods();renderRecords();
-if('serviceWorker' in navigator && location.protocol==='https:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
+const STORAGE='koekake.activity.v5';const counterKeys=['approach','ignore','eye','short','open','takeout','contact'];const names={approach:'声かけ数',ignore:'ガンシカ',eye:'目線だけ',short:'一言反応',open:'オープン',takeout:'連れ出し',contact:'連絡先交換'};const helps={approach:'声をかけた',ignore:'反応なし',eye:'視線のみ',short:'一言で終了',open:'自然な会話成立',takeout:'同意して移動',contact:'連絡先を交換'};
+const DEFAULT_PRACTICE=[
+['before','① 声かけ前・第一印象',[
+['position','位置取り','女性の斜め前45度を目安に、進路をふさがず1m以上の距離を確保する'],
+['eyecontact','アイコンタクト','凝視せず自然に目を合わせ、自分の存在を認識してもらう'],
+['voice','声の大きさ','街の雑音に負けない、明るくはっきり聞き取れる声で話す'],
+['appearance','身だしなみ','髪型・眉毛・服装・清潔感を整える']]],
+['opening','② 声かけ・会話の準備',[
+['clear','わかりやすい声かけ','相手がすぐ理解できる、短く自然な言葉を使う'],
+['prepared','会話の準備','声かけ理由・質問・誘い方・断られたときの終わり方を準備する']]],
+['conversation','③ 会話中',[
+['parallel','並行トーク','相手が会話を望む場合、無理に止めず歩きながら自然に話す'],
+['observe','相手の反応を観察','表情・笑顔・声の調子・距離の取り方を見て会話を調整する'],
+['pickup','相手の言葉を拾う','相手の発言を受け止め、その言葉から自然に話題を広げる']]],
+['invite','④ 誘い・切り返し',[
+['invite','明確に誘う','お茶・食事・連絡先交換など、自分の意図を分かりやすく伝える'],
+['refusal','断りへの対応','曖昧な返答なら一度だけ意図を確認し、明確な拒否や不快そうな反応があれば追わずに終了する']]]
+];
+const DEFAULT_MOODS=[['fear','無視が怖い','無視は自分の価値を示すものではありません。相手には話したくない事情もあります。結果よりも落ち着いた第一声を意識しましょう。'],['tense','緊張している','ゆっくり息を吐き、肩と眉間と顎の力を抜きます。無理に笑顔を固定せず、柔らかい目元を意識します。'],['down','落ち込んだ','一度の反応だけで自分を評価しないこと。今日できたことを一つ、改善点も一つだけ確認します。'],['tired','疲れ・焦り','休憩や終了も選択肢です。疲れを感じたら水分を取り、続けるかどうかを判断します。']];
+const CHIBA_RULES=`1｜自分から行かなければ何も始まらない
+2｜「断られる」は呼吸と同じ
+3｜待たない。常に自分の時計で動く
+4｜女性の言葉に真実は無い。行動を見る
+5｜フラれる原因は女性への「依存」
+6｜恋愛は確率。「数」が最重要項目
+7｜嫌われていい。一部の女性に強烈に刺さればいい
+8｜女性は誘わないことで関係が壊れる
+9｜優勝を人生の後回しにしない。取り返せないから
+10｜モテ、恋愛、ストは授業がない。親も学校も教えてくれない
+11｜「後腐れなく優勝する男の需要」←実はとてもある
+12｜恥を捨てると優勝が生まれる
+13｜「百戦錬磨のサイコパス」が最強
+14｜「失っても俺ならまた手に入れられる」こう思うと逆に失わない
+15｜やるべきことに集中し、決断は早く、期間を決めて最後までやりきる
+16｜「もう後がない」と思ってる男は強い。信じられない程努力する
+17｜アングラに染まらない。アングラから技術を盗む
+18｜「勇気のある男」←敗北し、学び、そしていつか美人をものにする
+19｜スマホを眺めて布団に居ない
+20｜別れ際は負けてあげる
+21｜女性は突然の出会いに意外と寛容
+22｜根拠がない自信が最強。根拠がないため崩れない
+23｜この世界には２択しかない。「優勝」か、「永遠のさよなら」か
+24｜いつも優しい男は退屈。冷たい男の優しいエスコートはドキドキ
+25｜女性の好みはガチで様々
+26｜「純粋無害な良い男」←テイカー女子に寄生されがち
+27｜毎日同じような生活だと結果も同じ。行動を変える
+28｜「城を攻めたことがない兵士」 は無価値扱い
+29｜女性は「簡単に会える男」が嫌い
+30｜「オスとしての成長」を第一に掲げること。安住した瞬間終わる
+31｜女性の好みは多種多様。決めつけない。常に希望はある
+32｜無理な「即目標」はトラブルの元。放流する勇気も必要
+33｜女性は「自分の言う事を全部聞いてくれる男」が嫌い
+34｜生身の女性を目の前で見よう。あなたの「オス」が目覚める
+35｜フラれまくっていい。フッてくる女性なんて二度と会わない
+36｜戦わないからダサいままなのです
+37｜多少取りこぼしても男の主義を貫く
+38｜凄腕は期待と不安で緊張させる。真面目アポとは完全真逆
+39｜モテ男や凄腕こそ誰よりも失敗してきた男
+40｜新規に力を全振りする。するとなぜか女性が追ってくる
+41｜「社内は潔白・外部で１００人」←これが最強に安全
+42｜他に女性がいて執着が無いと増々「優勝」できるようになる
+43｜スト師は変な人が多いが技術は本物
+44｜とてもハイクオリティな「仲の良い女性（優勝）」を持つと、ガチで悩みの８割がふっ飛ぶ
+45｜女性と１日デートは総合力を問われる。これも場数だ
+46｜家で寝てたら何も起こらない。本当に何も起こらない
+47｜女性にLINEを聞くのは恥ずかしいことでも変なことでもない
+48｜「女性に対する弱気」があなたの人生をおかしくさせる
+49｜女性の前では即決即断を見せる
+50｜女性はめちゃくちゃに打算的である
+51｜「努力するオジ」は、斜に構えて何もしない若イケより多く優勝している
+52｜自分を卑下する態度は厳禁。虚勢の方がまだ勝てる
+53｜結果を出すには挑戦以外は無い
+54｜今日は街に出るべきかな、と思った時は出たほうがいい。結局家でダラダラするだけ
+55｜ワン○○ト（その日の優勝）は別に悪じゃない
+56｜一般男の「行動の逆」をするとモテはじめてくる
+57｜女性の地雷を踏み抜かない。身体特徴への言及は避けるか慎重に
+58｜高タンパクな食事を。心と身体はつながっている
+59｜バーテン、美容師、バンドマンがモテるのは女性接触が日常だから。量を増やそう
+60｜凄まじい熱量と行動の前には何もかもが障壁にならない
+61｜タフになることは絶対条件。なぜならフラれることに慣れたら最強だから
+62｜LINEで悩まない。本質はそこじゃない。より多くの新規を獲得すること
+63｜恋愛トークを極めるコツは女性を主役にすること
+64｜「会いたいのに会えない男」になること。ガチ恋生成の絶対条件
+65｜初心者は緊張する。凄腕は女性に緊張させる
+66｜止まってはいけない。常に泳ぎ続ける
+67｜自分の評価は常に自分で下す
+68｜可愛いのに環境のせいで恋愛IQが低い子はわんさかいる
+69｜主導権は、握るより握られたほうが楽。だがスト師は自分から女性を振り回さなければならない
+70｜男だけがいつまでも過去を引きずる。全て背負ったまま前に進もう
+71｜凄腕は女性を「別生物」として見ている。その冷めた感じがさらに女性を惹きつける
+72｜口説きに根拠なんか無くて、自信たっぷりに「大丈夫だから」と言うのが一番効果がある
+73｜そっけない態度は時に最高の口説きになる
+74｜Lゲは「話して楽しかった結果」として生まれる
+75｜打診こそ命
+76｜長過ぎるデートはNG
+77｜女性に恥をかかせない
+78｜お酒よりも楽しげな雰囲気、打ち解けた雰囲気をトークで作り出す方が何十倍も大事
+79｜なぜ「直・弾丸・優勝」が成立するのか？女の子側も興味を持っていることが多いから
+80｜ベースとして押しが強い男は優勝できる
+81｜「付き合わない」と女性にはっきりと言う勇気。それなのに優勝できる事実
+82｜派手女性とは初婚で離婚してるケースばかり
+83｜ローカルで戦うすべてのスト師に乾杯。彼らは本当に強者だ
+84｜ネガティブな女性はそばに置いてはいけない。あなたの精神も病むから
+85｜むしろ内面を見てくる女性は２０代に多く存在する
+86｜「健康そうな身体」これがプリミティブに強い
+87｜女性に「さらけ出してもいいかも」と思わせたら勝ち
+88｜優勝がゴールです。それ以外は気休めにもならない
+89｜基本的にドキドキというものは最初のデートが一番
+90｜女性は、「周囲に繋がりがない」ことを示すと本性をあらわす
+91｜数追い、美女、彼女作り、春追い、青春、自己研鑽、（変）探し、帝国構築。そこに優劣はない
+92｜女性関係において善行は報われない
+93｜あまり出会いの場に行かない宝石はひっそりと存在している
+94｜「仕事ばかりで女性関係をないがしろにしてきました」
+95｜「恋愛を完全にゼロ」にするのは大変な損失
+96｜恋愛活動をしない人は「恋愛活動をしないことが習慣化」されている
+97｜スト師の誘惑術の極意→「徐々に触れる巧妙さ」
+98｜女性は「自分に向けられたやさしさ」しか評価しない
+99｜女性ははっきり拒絶してこない←そういうものだと最初から割り切る
+100｜スト師の上位層はもはやゲームのバグ
+101｜最初の壁を突破したときの感動は凄まじい
+102｜女性にナメられた話は絶対に女性に話してはいけない。その女性にもナメられるから
+103｜「拒否が怖い」これが女性から見てめちゃくちゃダサい
+104｜最初は全部虚勢でいい
+105｜初心者で弱いうちから大好きな彼女が出来ると危険。彼女に放流された時に最弱の男が爆誕するから
+106｜その日は必ず「優勝を目指す」こと
+107｜守りに入るとガチで負けます。男とはそういうもの
+108｜秋田出身の子。肌がマジでツヤツヤ
+109｜本当の恋だと思ったら全力で突っ込んでいい
+110｜ズルい奴が恋愛で勝つ。綺麗事のない世界だから
+111｜女性の質問に全部答えない
+112｜ストは永遠のアンダーグラウンド。メジャーにはならない
+113｜モテる男の特徴は？ めちゃくちゃ自然体なこと
+114｜突き放すタイプの冷たさを手に入れてください
+115｜嫌な女性からはさっさと立ち去る
+116｜恋は人間のバグ
+117｜（既）との再放送みたいな優勝は避ける
+118｜先に女性に与える。そうするから優勝を貰える
+119｜執着が一番の敵
+120｜女性が一番嫌うのが「男の依存」
+121｜女性の「欲」を知ってください
+122｜優しい心を持つものは簡単に女性に蹂躙される
+123｜優勝し過ぎて冷めてる男がいる。そういう男が一番モテる
+124｜なぜナメられるのか？隙があるから
+125｜男は目標があると頑張る
+126｜「俺は女性関係で困っていない」こう印象付けることが超絶に大事
+127｜女性があなたを追うように仕向ける
+128｜フレンドとリズミカルに優勝すると地に落ちていた自信までムクムクする
+129｜「この行動は優勝に繋がるだろうか？」←常に問いかける
+130｜自分の職場だけは絶対手出しNG
+131｜「慣れ感」こそが優勝のキー
+132｜ヘコヘコしないマインドを手に入れる
+133｜男は誘った数、アポった数だけしか成長していけない。調べた数しか店が増えない
+134｜頑張って女性に都合を合わせまくるからナメられてしまう
+135｜最強の口説きの態度は「リラックス」
+136｜忘れようとしない。全部背負う
+137｜暇な女の子はとにかく優勝しやすい
+138｜必ず初回で優勝する
+139｜「動画」を毎晩見ると脳が縮む
+140｜女性は誘われることでスイッチが入る
+141｜「俺は頭がいい」みたいな態度で女性と会話しない。かなりモテない
+142｜親も友達も真実は言ってくれない。気を遣って無難なアドバイスだけ。しかし女性は、超辛辣だが真実の評価をくれる
+143｜女性は相手によってめちゃくちゃ態度を変える
+144｜自分自身を「一流」として扱う
+145｜月10-30即は記録狙いのアスリートスト師。リーマンスト師はバランスを考えて目標設定する
+146｜「勇気」こそ宝。若さも金も霞むレベル
+147｜女性を神格化しない
+148｜もし今あなたに女性からの人気がない場合、擬態でいい
+149｜悪い男は嘘と分かる嘘を言う。女性は分かってるけど燃え上がる
+150｜自信があり、魅力的で余裕のある男は永遠に需要がある
+151｜脳汁だけでパートナーを選ばない
+152｜「モテる男は女性のほうから～」とか無視。常にこちらがリードする
+153｜スト師が３０代でも化け物みたいに若いのは日々這いずり回って運動しているから
+154｜ロジカルシンキングをすればするほどモテの分野では「出会いの母数」が最重要だと分かる
+155｜未だに強い、レガシー三種の神器。筋トレ　粗食　スト
+156｜女性はあなたを拒絶することに何の罪悪感も感じません
+157｜女性は、別れ際に別れの本当の理由を言わない
+158｜他人との比較ばかりしないでください。思考の毒だから
+159｜悩む時間があったらベッドから起きて腕立て伏せをする
+160｜LINEが返ってこないことに悩んでる途中で「この時間、ムダじゃね？」と思えたら一歩成長
+161｜女性と「共犯関係」になる。彼蟻も即日も全部これで優勝できる
+162｜「慣れた店で魅了し付き合う前に先に優勝」←これは鉄則
+163｜毎回「色恋告白」なんていらない。気軽に優勝打診していい
+164｜女性に振り回されない。「淡々と」が正解
+165｜女性には「遊びたい時期」がある
+166｜女性は男に「品行方正」を求めているわけではない
+167｜「危機管理能力だけ異常発達したサイコ」←めちゃくちゃ強い
+168｜ストがチート級に強いのは奇襲戦法だから。場馴れのレベルが違う
+169｜口を触れたら必ず優勝を完了させること。１５分以内に個室打診
+170｜ゲット後は「会いたかったらこいよ」が基本
+171｜ストの仕方は昔はおせっかい先輩が教えてくれた。令和は絶滅。己で調べるのみ
+172｜たまには好きな子と温泉旅行に行く
+173｜いい匂いがする子は絶対「継続」する。ガチで癒やされる
+174｜女性はとにかく周囲からの評判が怖いだけ
+175｜母性の強い子と付き合う。女性恐怖症が治る
+176｜一番ワリカンを嫌がる年代はアラサー以降
+177｜戦ってないから太る
+178｜女性は男のことを「正しいか」「悪いか」で見ていない。「強いか」「弱いか」だけで見ている
+179｜「あー疲れた。今日もアポか。可愛いから優勝できたらいいな」と思う男←女性が追いかけたくなる男
+180｜世間の常識に反すること。「常識的」だとめちゃくちゃモテないから
+181｜あなたが女性に隙を与えた
+182｜ストで戦う相手は女性ではない。実は自分自身
+183｜タフさはモテの最強武器
+184｜ダメ元打診→意外とヌルっと通ったりする
+185｜女性に「ヒマな男だ」と思わせない
+186｜アプローチの基本は数
+187｜なぜ女性に媚びないと優勝できるようになるか？←「貴重」だから
+188｜具体的な行動があなたの自信になる
+189｜女性に悪態をつかない
+190｜女性の地元を馬鹿にしない。めちゃくちゃ不機嫌になるから
+191｜勝手に諦めず最後に必ず白黒つける
+192｜まずは死ぬ気で０→１達成
+193｜常に一番いい女性を狙う
+194｜「ほどほどでいいや」と思う男には永遠に一番は訪れない
+195｜息子は数あれど我がものは一つ
+196｜高学歴女性やエリート女性より、そのへんのギャルとかパリピのほうが恋愛IQが高い
+197｜女性は男の「現代を生き抜く力」を見ており、「優しさ」なんて見ていない
+198｜無感情でゴリゴリに数を稼ぐ男が強い
+199｜常に「自分の時計」で動く
+200｜「選球眼」を磨く
+201｜フラれることに慣れると最強になる
+202｜彼女が「搾取型」でないかの判定を絶対行うこと
+203｜「男の緊張」に価値は無い。余裕感が出るまで反復
+204｜即後は、見たくない所まで気付いてしまう
+205｜出会い方は関係ない。良い子には「当たるか、当たらないか」それだけ
+206｜高級スーツや高級靴でキメてるのに安い店に連れて行かれると女性は『なんで？』と思う
+207｜基本的に女性から優勝したいとは言わないし誘ってこない。男から打診する
+208｜50代、60代のあなたが見てる。いまやる、すぐやる、とことんやる
+209｜思いつめてはいけない。これが強烈にモテない
+210｜最近飲んだ男の話を聞き出すこと。愚痴と本音を引き出せて盛り上がる
+211｜とんでもなく「我」のある男になる
+212｜精神力や図太さという点で見ても、女性の方が圧倒的に強い
+213｜頻繁に「優勝」すると自己肯定感が向上する
+214｜「彼女にすがりつく必要ないな」←こう思えたらあなたは急速に進化する
+215｜「付き合ってすぐ別れる」←ぶっちゃけ女性の方が日常的にしている
+216｜恋愛は道徳や倫理の世界ではなく「2億」と「卵」の世界
+217｜気が抜けている方が抜群にモテる
+218｜1人より複数の女性を追うほうが上手くいく。しかも全員と優勝を達成できる
+219｜際どいトークは機が熟した後半に仕掛けること
+220｜暇で暇でしょうがない男が作ってくれた時間に、女性は価値を感じることが出来ない
+221｜「タイミング合えば」→合わない 「予定分かったら」→連絡ない 「アポ3週間後」→会う気ない 「明日早くて」→二軒目拒否
+222｜「何も気にしないで次に行く」←最強
+223｜「優勝する友達」←女性の面倒な部分が全部そぎ落とされた至高の関係
+224｜本当は優勝したいのに蓋してる男よりスト師のほうがまだ自分に正直
+225｜「いま手にしているものを絶対に手放したくない」←こう思い始めたらあなたは劣化に向かっている
+226｜スト活動を開始すると「退屈」の2文字は消え去る
+227｜女性を口説く時は反論しない。共感が主体
+228｜悪い子だと判明したら？早めに分かって良かったと心の中で感謝する
+229｜銃口を突きつけられた男は人生最大のモチベで破茶滅茶に活動する
+230｜モテる男は良い意味で自分勝手。不慣れな男は相手に永遠に気を遣う
+231｜ストは若返る。全身運動のため
+232｜自信のある男は目と表情が違う
+233｜「絶対に誰にも言わないと、強く約束すること」これが優勝のキー
+234｜元彼がク○な女性は今後もク○男に惹かれる
+235｜「思い詰めることを辞める」このためにあらゆることをする。していい
+236｜男の人生は競争。ためらわない、迷わない、まっすぐに「卵」を追いかける
+237｜初心者はまず優勝をできる子から優勝していくこと
+238｜あまったれ生活を捨てる。自炊、トレーニング、部屋改造、服全部新調、スト、アポ決め、何度も復活
+239｜世間では「優勝は悪」と教えられるが嘘。生活が生き生きし、やりがいや生きがいを日々感じる
+240｜「ちょっと優勝できるサラリーマン」これを目指すだけでも強くなれる
+241｜あなたは修行する。一般普通男がゆるふわに家と仕事を往復してる間に
+242｜「復活力」が男の人生のキー
+243｜「慣れていない感」を消そう。そのために100即する
+244｜女性へのアタックは最大の広告。自分を流通させること
+245｜相づちは音ゲー。完璧タイミングを会得する
+246｜「思いつめる」←これで本命との関係が良くなればいいが大抵はマイナスにしか働かない
+247｜女性は「自分の手の届く範囲で一番の恋愛強者」と付き合う
+248｜必ず女性から「与えてもらう」こと。投資をさせる
+249｜「10即」「20即」「50即」「100即」これらで毎回見える世界が変わる
+250｜年上気にしない子は大勢いる。本当に沢山いる
+251｜オドオド感を消すことには人生を賭ける価値がある
+252｜戦ってない男は「凄まじく劣化」する
+253｜死ぬほどの片思いをしたことがない人生は味気ない
+254｜無双男は媚びない。ヘコヘコ男は無制限に媚びる
+255｜ギャルは化粧品で出来ている
+256｜ストマシーンになること。感情を捨てると急に強くなる
+257｜「この人鍛えてるなという印象」を与えることが大事
+258｜常に長期目線。目の前の女性だけを見ない
+259｜楽しいことも、幸せな思い出も、辛いことも、悲しいことも、涙の別れも、罪悪感も、すべてが詰まったフォルダを沢山抱えながら生きていく
+260｜「慣れて大胆になる」これが成功のゴールデンルート
+261｜完璧な恋愛があるかはわからないが、完璧だと思う瞬間は何度もある`.split('\n').map(line=>{const [number,...text]=line.split('｜');return{number:Number(number),text:text.join('｜')}});
+const clone=v=>JSON.parse(JSON.stringify(v));const defaults=()=>({version:5,locations:['千葉駅'],place:'千葉駅',days:{},reviews:{},quotes:[],phrases:[],practice:clone(DEFAULT_PRACTICE),moods:clone(DEFAULT_MOODS),checks:{},checkDate:'',draft:{name:'',lines:['','','','',''],editId:null}});
+function load(){try{const obj=JSON.parse(localStorage.getItem(STORAGE));return obj&&obj.version===5?{...defaults(),...obj}:defaults()}catch{return defaults()}}
+let data=load();const $=id=>document.getElementById(id);let undoStack=[],lastQuote=-1,lastPhrase=-1,lastRule=-1;let activeDate='';let editingReviewKey='';const dateNow=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};const keyFor=(date,place)=>JSON.stringify([date,place]);
+function save(){try{localStorage.setItem(STORAGE,JSON.stringify(data));return true}catch{alert('保存容量が不足しているか、ブラウザで保存できません。バックアップを取ってください。');return false}}
+function ensureLocations(){data.locations=[...new Set([...(Array.isArray(data.locations)?data.locations:[]),data.place||'千葉駅'])].filter(Boolean);if(!data.locations.length)data.locations=['千葉駅'];if(!data.locations.includes(data.place))data.place=data.locations[0]}
+function blankCounts(){return Object.fromEntries(counterKeys.map(k=>[k,0]))}
+function ensureDay(date,place){const k=keyFor(date,place);if(!data.days[k])data.days[k]={date,place,counts:blankCounts()};for(const id of counterKeys)data.days[k].counts[id]=Math.max(0,Number(data.days[k].counts[id])||0);return data.days[k]}
+function e(tag,attrs={},text){const node=document.createElement(tag);for(const [k,v] of Object.entries(attrs)){if(k==='class')node.className=v;else if(k==='type')node.type=v;else node.setAttribute(k,v)}if(text!==undefined)node.textContent=text;return node}
+function opts(el,items,value){el.replaceChildren();for(const item of items){let op=e('option',{value:item.value},item.label);el.append(op)}if(value!==undefined&&items.some(o=>o.value===value))el.value=value}
+function switchTab(id){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===id));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id===id));window.scrollTo(0,0);if(id==='stats')renderStats();if(id==='review')loadReviewForm()}
+$('nav').addEventListener('click',ev=>{const btn=ev.target.closest('button[data-tab]');if(btn)switchTab(btn.dataset.tab)});
+function refreshLocationSelectors(){ensureLocations();const locs=data.locations.map(p=>({label:p,value:p}));opts($('locationSelect'),locs,data.place);opts($('reviewPlace'),locs,$('reviewPlace').value||data.place);opts($('statsPlace'),[{label:'すべての場所',value:'*'},...locs],$('statsPlace').value||'*')}
+function refreshDay(){const date=dateNow();if(activeDate!==date){activeDate=date;undoStack=[];if(data.checkDate!==date){data.checks={};data.checkDate=date}save()}$('activeDate').textContent=date.replaceAll('-','/');return date}
+function renderCounters(){const date=refreshDay(),entry=ensureDay(date,data.place);refreshLocationSelectors();$('counterGrid').replaceChildren();counterKeys.forEach((k,i)=>{const b=e('button',{class:'counter'+(i===0?' main':''),type:'button','aria-label':names[k]+'を1件追加'});b.append(e('b',{},names[k]),e('strong',{},entry.counts[k]),e('small',{},helps[k]));b.onclick=()=>{refreshDay();const d=ensureDay(activeDate,data.place);d.counts[k]++;undoStack.push({key:keyFor(activeDate,data.place),field:k});save();renderCounters();$('counterStatus').textContent=names[k]+' ＋1（保存済み）'};$('counterGrid').append(b)});const c=entry.counts;const unc=c.approach-c.ignore-c.eye-c.short-c.open;$('unclassified').textContent=unc>0?'結果未分類：'+unc+'件（後から必要に応じて記録）':unc<0?'注意：結果の合計が声かけ数を超えています。記録を確認してください。':'声かけの結果分類：件数が一致しています。'}
+$('locationSelect').onchange=ev=>{data.place=ev.target.value;undoStack=[];save();renderCounters()};$('newLocation').onclick=()=>{const p=prompt('活動場所名を入力してください（例：船橋駅）');if(p===null)return;const name=p.trim().slice(0,60);if(!name)return;if(!data.locations.includes(name))data.locations.push(name);data.place=name;undoStack=[];save();renderCounters()};$('undoCounter').onclick=()=>{const last=undoStack.pop();if(!last){$('counterStatus').textContent='取り消せる操作はありません';return}if(data.days[last.key]&&data.days[last.key].counts[last.field]>0){data.days[last.key].counts[last.field]--;save()}renderCounters();$('counterStatus').textContent='直前の操作を取り消しました'};
+function practiceItems(){return data.practice.flatMap(([groupId,title,items])=>items.map(item=>({groupId,groupTitle:title,id:item[0],name:item[1],description:item[2]})))}
+function renderPrepare(){const root=$('practiceChecks');root.replaceChildren();data.practice.forEach(([groupId,title,items])=>{root.append(e('h3',{},title));items.forEach(([id,name,description])=>{const label=e('label',{class:'check'}),input=e('input',{type:'checkbox'});input.checked=!!data.checks['p:'+id];input.onchange=()=>{data.checks['p:'+id]=input.checked;save();progress()};const text=e('span');text.append(e('b',{},name),document.createTextNode('：'+description));label.append(input,text);root.append(label)})});progress()}
+function progress(){const items=practiceItems(),n=items.filter(item=>!!data.checks['p:'+item.id]).length;$('checkCount').textContent=n+'/'+items.length;$('checkBar').style.width=(items.length?100*n/items.length:0)+'%'}$('clearChecks').onclick=()=>{data.checks={};save();renderPrepare()};
+function renderMental(){opts($('moodSelect'),data.moods.map(x=>({label:x[1],value:x[0]})),$('moodSelect').value||'fear');$('moodText').textContent=data.moods.find(x=>x[0]===$('moodSelect').value)?.[2]||''} $('moodSelect').onchange=renderMental;
+function randomDifferent(length,last){if(!length)return -1;if(length===1)return 0;let i=Math.floor(Math.random()*(length-1));return i>=last?i+1:i}
+function showRule(){lastRule=randomDifferent(CHIBA_RULES.length,lastRule);const rule=CHIBA_RULES[lastRule];$('ruleDisplay').textContent='掟 '+rule.number+' / '+CHIBA_RULES.length+'\n\n'+rule.text}$('randomRule').onclick=showRule;
+function showQuote(random=true){if(!data.quotes.length){$('quoteDisplay').textContent='名言は未登録です。「設定」から追加できます。';return}if(random||lastQuote>=data.quotes.length)lastQuote=randomDifferent(data.quotes.length,lastQuote);$('quoteDisplay').textContent=data.quotes[lastQuote]?.text||'名言がありません'}$('randomQuote').onclick=()=>showQuote();
+function showPhrase(random=true){if(!data.phrases.length){$('phraseDisplay').textContent='まだパターンがありません。「設定」から追加できます。';return}if(random||lastPhrase>=data.phrases.length)lastPhrase=randomDifferent(data.phrases.length,lastPhrase);const p=data.phrases[lastPhrase];$('phraseDisplay').textContent=p.name+'\n\n'+p.lines.map((s,i)=>(i+1)+'フレーズ目：'+(s||'（未入力）')).join('\n\n')}$('randomPhrase').onclick=()=>showPhrase();
+function renderPhraseLibrary(){const root=$('phraseLibrary');root.replaceChildren();if(!data.phrases.length){root.append(e('p',{class:'muted'},'未登録です。後からリストを追加できます。'));return}data.phrases.forEach(p=>root.append(e('div',{class:'listitem'},p.name)))}
+function num(v){return Math.max(0,Number(v)||0)}function allRows(){return Object.values(data.days).filter(x=>x&&x.counts&&x.date&&x.place)}
+function matchesFilters(r){const today=dateNow(),period=$('period').value,place=$('statsPlace').value;let cutoff='';if(period==='week'){const d=new Date(today+'T12:00:00');d.setDate(d.getDate()-6);cutoff=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}return(place==='*'||r.place===place)&&(period==='all'||(period==='today'?r.date===today:period==='month'?r.date.slice(0,7)===today.slice(0,7):r.date>=cutoff&&r.date<=today))}
+function filteredRows(){return allRows().filter(matchesFilters).sort((a,b)=>b.date.localeCompare(a.date)||a.place.localeCompare(b.place))}
+function filteredReviews(){return Object.values(data.reviews).filter(r=>r&&r.date&&r.place&&r.practice&&matchesFilters(r))}
+function renderPracticeStats(reviews){const root=$('practiceStats');root.replaceChildren();const items=practiceItems().map(item=>{const recorded=reviews.filter(r=>Object.prototype.hasOwnProperty.call(r.practice,item.id));const achieved=recorded.filter(r=>r.practice[item.id]).length;return{...item,attempts:recorded.length,achieved,rate:recorded.length?100*achieved/recorded.length:null}}).filter(x=>x.attempts).sort((a,b)=>a.rate-b.rate||a.name.localeCompare(b.name,'ja'));if(!items.length){root.append(e('p',{class:'hint'},'この条件では、実践チェックを保存した振り返りがまだありません。'));return}items.forEach(item=>{const line=e('div',{class:'barline'});line.append(e('span',{},item.name),e('strong',{},item.rate.toFixed(0)+'%（'+item.achieved+'/'+item.attempts+'回）'));const track=e('div',{class:'bar'}),fill=e('div');fill.style.width=item.rate+'%';track.append(fill);root.append(line,track)})}
+function renderStats(){refreshLocationSelectors();const rows=filteredRows();const totals=blankCounts();rows.forEach(r=>counterKeys.forEach(k=>totals[k]+=num(r.counts[k])));const root=$('statsGrid');root.replaceChildren();counterKeys.forEach(k=>{const div=e('div',{class:'stat'});div.append(e('strong',{},String(totals[k])),e('span',{},names[k]));root.append(div)});const rates=$('rates');rates.replaceChildren();['ignore','eye','short','open'].forEach(k=>{const pct=totals.approach?100*totals[k]/totals.approach:0;const line=e('div',{class:'barline'});line.append(e('span',{},names[k]+'率'),e('strong',{},totals.approach?pct.toFixed(1)+'%':'—'));const track=e('div',{class:'bar'});const fill=e('div');fill.style.width=Math.min(100,pct)+'%';track.append(fill);rates.append(line,track)});const classified=totals.ignore+totals.eye+totals.short+totals.open;let msg='記録を蓄積すると、改善ポイントを確認できます。';if(totals.approach>0){if(totals.approach<20)msg='声かけ件数がまだ少ないため、割合の変動が大きい状態です。結果を断定せず、声量・距離・表情・相手への配慮を記録しましょう。';else if(totals.ignore/totals.approach>=.5)msg='無反応の割合が高めです。声が届いているか、位置やタイミング、相手が会話できる状況かを確認してください。';else if(totals.eye/totals.approach>=.3)msg='視線だけの反応が比較的多いようです。第一声の分かりやすさと、安心して断れる距離感を見直してください。';else if(totals.short/totals.approach>=.3)msg='一言で終わるケースが比較的多いようです。最初の5フレーズの自然さと、相手の反応への対応を振り返ってください。';else msg='会話成立までの過程に加え、自然な会話の質や相手の意思を尊重できているかを振り返りましょう。';if(classified!==totals.approach)msg+='\n※声かけ数と結果分類の件数が一致していません。未分類・重複登録を確認してください。'}$('insight').textContent=msg;renderPracticeStats(filteredReviews());const table=$('dailyTable');table.replaceChildren();if(!rows.length){table.append(e('p',{class:'hint'},'この条件の記録はありません。'));return}rows.forEach(r=>{const div=e('div',{class:'listitem'});const text=r.date+'　'+r.place+'\n'+counterKeys.map(k=>names[k]+': '+num(r.counts[k])).join('　');div.append(e('div',{},text));const btn=e('button',{class:'btn alt',type:'button'},'この日の振り返り');btn.onclick=()=>{switchTab('review');$('reviewDate').value=r.date;$('reviewPlace').value=r.place;loadReviewForm()};div.append(btn);table.append(div)})} $('period').onchange=renderStats;$('statsPlace').onchange=renderStats;
+function exportFile(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob),a=e('a',{href:url,download:name});document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+$('exportCsv').onclick=()=>{const headers=['日付','場所',...counterKeys.map(k=>names[k])];const rows=filteredRows().map(r=>[r.date,r.place,...counterKeys.map(k=>num(r.counts[k]))]);const quote=v=>'"'+String(v).replaceAll('"','""')+'"';exportFile('activity-stats-'+dateNow()+'.csv','\ufeff'+[headers,...rows].map(row=>row.map(quote).join(',')).join('\r\n'),'text/csv;charset=utf-8')};
+function readReviewKey(){return keyFor($('reviewDate').value||dateNow(),$('reviewPlace').value||data.place)}
+function renderReviewPractice(saved={}){const root=$('reviewPracticeChecks');root.replaceChildren();data.practice.forEach(([groupId,title,items])=>{root.append(e('h3',{},title));items.forEach(([id,name,description])=>{const label=e('label',{class:'check'}),input=e('input',{type:'checkbox','data-practice-id':id});input.checked=!!saved[id];const text=e('span');text.append(e('b',{},name),document.createTextNode('：'+description));label.append(input,text);root.append(label)})})}
+function loadReviewForm(){refreshLocationSelectors();if(!$('reviewDate').value)$('reviewDate').value=dateNow();const k=readReviewKey(),r=data.reviews[k]||{};['Theme','Good','Difficult','Next','Free'].forEach(x=>{$('review'+x).value=r[x.toLowerCase()]||''});renderReviewPractice(r.practice||{});const count=data.days[k]?.counts||blankCounts();$('reviewCountSummary').textContent=counterKeys.map(id=>names[id]+':'+num(count[id])).join('　');editingReviewKey=k}
+$('reviewDate').onchange=loadReviewForm;$('reviewPlace').onchange=loadReviewForm;
+$('saveReview').onclick=()=>{const k=readReviewKey(),practice={};document.querySelectorAll('#reviewPracticeChecks input[data-practice-id]').forEach(input=>practice[input.dataset.practiceId]=input.checked);data.reviews[k]={date:$('reviewDate').value,place:$('reviewPlace').value,theme:$('reviewTheme').value,practice,good:$('reviewGood').value,difficult:$('reviewDifficult').value,next:$('reviewNext').value,free:$('reviewFree').value};save();$('reviewStatus').textContent='保存しました。11項目の達成状況も集計へ反映されます。'};
+function renderQuoteLibrary(){const root=$('quoteLibrary');root.replaceChildren();data.quotes.forEach((obj,i)=>{const div=e('div',{class:'listitem'});div.append(e('div',{},obj.text));const actions=e('div',{class:'row'});const edit=e('button',{class:'btn alt'},'編集'),del=e('button',{class:'btn danger'},'削除');edit.onclick=()=>{const v=prompt('名言の文章を編集',obj.text);if(v!==null&&v.trim()){obj.text=v.trim();save();renderQuoteLibrary();showQuote()}};del.onclick=()=>{if(confirm('この名言を削除しますか？')){data.quotes.splice(i,1);save();renderQuoteLibrary();showQuote()}};actions.append(edit,del);div.append(actions);root.append(div)})}
+$('addQuote').onclick=()=>{const s=$('quoteInput').value.trim();if(!s)return alert('名言を入力してください');data.quotes.push({text:s});$('quoteInput').value='';save();renderQuoteLibrary();showQuote()};
+function phraseEditorFields(){const root=$('phraseEditors');root.replaceChildren();for(let i=0;i<5;i++){const label=e('label',{class:'field'});label.append(e('span',{},(i+1)+'フレーズ目'));const textarea=e('textarea',{id:'phraseLine'+i,placeholder:'フレーズを入力'});textarea.value=data.draft.lines[i]||'';textarea.oninput=()=>{data.draft.lines[i]=textarea.value;save()};label.append(textarea);root.append(label)}$('editPhraseName').value=data.draft.name||''}
+$('editPhraseName').oninput=ev=>{data.draft.name=ev.target.value;save()};$('clearPhrase').onclick=()=>{data.draft={name:'',lines:['','','','',''],editId:null};save();phraseEditorFields();$('phraseEditStatus').textContent='新規入力に切り替えました'};
+function renderPhraseManage(){const root=$('phraseManage');root.replaceChildren();data.phrases.forEach((p,i)=>{const div=e('div',{class:'listitem'});div.append(e('h3',{},p.name));const actions=e('div',{class:'row'}),edit=e('button',{class:'btn alt'},'編集'),del=e('button',{class:'btn danger'},'削除');edit.onclick=()=>{data.draft={name:p.name,lines:[...p.lines],editId:p.id};save();phraseEditorFields();$('phraseEditStatus').textContent='「'+p.name+'」を編集中';$('editPhraseName').scrollIntoView({block:'center'})};del.onclick=()=>{if(confirm('このパターンを削除しますか？')){data.phrases.splice(i,1);save();renderPhraseManage();renderPhraseLibrary();showPhrase()}};actions.append(edit,del);div.append(actions);root.append(div)})}
+$('savePhrase').onclick=()=>{const name=$('editPhraseName').value.trim()||'無題のパターン',lines=Array.from({length:5},(_,i)=>$('phraseLine'+i).value.trim());if(!lines.some(Boolean))return alert('最低1フレーズ入力してください');const id=data.draft.editId||('p'+Date.now()+'-'+Math.random().toString(36).slice(2,6)),obj={id,name,lines};const index=data.phrases.findIndex(p=>p.id===id);if(index>=0)data.phrases[index]=obj;else data.phrases.push(obj);data.draft={name:'',lines:['','','','',''],editId:null};save();phraseEditorFields();renderPhraseManage();renderPhraseLibrary();showPhrase();$('phraseEditStatus').textContent='パターンを保存しました'};
+function renderSettings(){const p=$('practiceEditors');p.replaceChildren();data.practice.forEach(([groupId,title,items],i)=>{const titleLabel=e('label',{class:'field'});titleLabel.append(e('span',{},'グループ名'));const titleInput=e('input',{id:'practiceTitle'+i});titleInput.value=title;titleLabel.append(titleInput);const itemLabel=e('label',{class:'field'});itemLabel.append(e('span',{},title+'（'+items.length+'項目）'));const txt=e('textarea',{id:'practiceEditor'+i});txt.value=items.map(item=>item[1]+'｜'+item[2]).join('\n');itemLabel.append(txt);p.append(titleLabel,itemLabel)});const m=$('moodEditors');m.replaceChildren();data.moods.forEach(([id,title,body],i)=>{const l=e('label',{class:'field'});l.append(e('span',{},title));const txt=e('textarea',{id:'moodEditor'+i});txt.value=body;l.append(txt);m.append(l)});renderQuoteLibrary();phraseEditorFields();renderPhraseManage()}
+$('saveChecks').onclick=()=>{const next=[];for(let g=0;g<data.practice.length;g++){const [groupId,oldTitle,oldItems]=data.practice[g],title=$('practiceTitle'+g).value.trim()||oldTitle,lines=$('practiceEditor'+g).value.split('\n').map(x=>x.trim()).filter(Boolean);if(lines.length!==oldItems.length)return alert('「'+oldTitle+'」は'+oldItems.length+'項目のまま保存してください');const items=lines.map((line,i)=>{const pos=line.indexOf('｜'),name=(pos<0?line:line.slice(0,pos)).trim(),description=(pos<0?'':line.slice(pos+1)).trim();return[oldItems[i][0],name,description]});if(items.some(item=>!item[1]))return alert('項目名が空欄の行があります');next.push([groupId,title,items])}data.practice=next;data.checks={};save();renderPrepare();loadReviewForm();alert('実践チェックリストを保存しました')};
+$('saveMoods').onclick=()=>{data.moods=data.moods.map(([id,name],i)=>[id,name,$('moodEditor'+i).value]);save();renderMental();alert('メンタル文章を保存しました')};
+$('exportBackup').onclick=()=>exportFile('koekake-backup-'+dateNow()+'.json',JSON.stringify(data,null,2),'application/json;charset=utf-8');$('importBackup').onclick=()=>$('backupFile').click();$('backupFile').onchange=async(ev)=>{const file=ev.target.files[0];if(!file)return;try{const obj=JSON.parse(await file.text());if(!obj||obj.version!==5||!obj.days||!obj.reviews||!Array.isArray(obj.locations))throw Error('形式が異なります');if(!confirm('現在の全データをバックアップの内容で置き換えます。よろしいですか？'))return;data={...defaults(),...obj};save();undoStack=[];initialize();alert('復元しました')}catch(ex){alert('読み込めませんでした：'+ex.message)}finally{ev.target.value=''}};
+// v4からの基本データを初回のみ引き継ぐ。元データは削除しない。
+function legacyImport(){if(localStorage.getItem(STORAGE))return;try{const old=JSON.parse(localStorage.getItem('voicecheck.v1'));if(!old)return;let copied=false;if(Array.isArray(old.quotes)){data.quotes=old.quotes.filter(q=>q&&typeof q.text==='string').map(q=>({text:q.text}));copied=true}if(Array.isArray(old.phrases)){data.phrases=old.phrases.map((p,i)=>({id:'legacy'+i,name:p.title||p.name||'パターン',lines:Array.from({length:5},(_,j)=>p.lines?.[j]||'')}));copied=true}if(Array.isArray(old.customQuick)&&old.customQuick.length===5){data.quick=old.customQuick;copied=true}if(Array.isArray(old.customGroups)){data.groups=old.customGroups;copied=true}if(Array.isArray(old.customMoods)){data.moods=old.customMoods;copied=true}if(old.counter?.date){const r=ensureDay(old.counter.date,old.place||data.place);for(const [dst,src] of [['approach','approach'],['ignore','ignore'],['eye','eye'],['open','open'],['takeout','takeout'],['contact','contact']])r.counts[dst]=num(old.counter[src]);copied=true}if(Array.isArray(old.counterDays))old.counterDays.forEach(c=>{if(!c.date)return;const r=ensureDay(c.date,old.place||data.place);for(const k of ['approach','ignore','eye','open','takeout','contact'])r.counts[k]=num(c[k]);copied=true});if(Array.isArray(old.records))old.records.forEach((r,i)=>{if(!r.date)return;data.reviews[keyFor(r.date,old.place||data.place)]={date:r.date,place:old.place||data.place,theme:r.theme||'',good:r.good||'',difficult:r.difficult||'',next:r.next||'',free:r.free||''};copied=true});if(copied)save()}catch(err){console.warn('旧データの引き継ぎに失敗',err)}}
+function initialize(){ensureLocations();refreshLocationSelectors();renderCounters();renderPrepare();renderMental();showRule();showQuote();showPhrase();renderPhraseLibrary();renderSettings();renderStats();$('reviewDate').value=dateNow();$('reviewPlace').value=data.place;loadReviewForm()}legacyImport();initialize();document.addEventListener('visibilitychange',()=>{if(!document.hidden&&dateNow()!==activeDate){renderCounters();renderPrepare();renderStats();$('reviewDate').value=dateNow();loadReviewForm()}});if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 </script></body></html>
