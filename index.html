@@ -31,6 +31,20 @@ const DEFAULT_PRACTICE=[
 ['refusal','断りへの対応','曖昧な返答なら一度だけ意図を確認し、明確な拒否や不快そうな反応があれば追わずに終了する']]]
 ];
 const DEFAULT_MOODS=[['fear','無視が怖い','無視は自分の価値を示すものではありません。相手には話したくない事情もあります。結果よりも落ち着いた第一声を意識しましょう。'],['tense','緊張している','ゆっくり息を吐き、肩と眉間と顎の力を抜きます。無理に笑顔を固定せず、柔らかい目元を意識します。'],['down','落ち込んだ','一度の反応だけで自分を評価しないこと。今日できたことを一つ、改善点も一つだけ確認します。'],['tired','疲れ・焦り','休憩や終了も選択肢です。疲れを感じたら水分を取り、続けるかどうかを判断します。']];
+const DEFAULT_PHRASES=[
+{id:'flow-hurry',name:'急ぎ足：1分で判断',lines:['そんなに急いで、どこ行くの？ タイプだったから声かけた。1分だけ話していい？','仕事？待ち合わせ？ 何時までに着けば大丈夫？','少し余裕があるなら、歩きながら短く話そう。今日は何してたの？','今は難しそうなら、よかったら連絡先だけ交換しよう。','急いでいる・断られた・反応がない場合は「ごめん、気をつけて」で終了する。']},
+{id:'flow-earphones',name:'イヤホン：気づいてもらってから',lines:['斜め前の十分な距離から手を軽く振る。目が合ったら「何聴いてるの？ ○○系？」','イヤホンを外してくれたら「ありがとう。タイプだったから声かけた」と理由を短く伝える。','今は何しているところ？ 帰り？買い物？待ち合わせ？','答えを拾って「それ好きなんだ」「今日はどこまで行くの？」と一段だけ広げる。','会話が続けば誘いか連絡先交換。外さない・反応がない・断られた場合は追わずに終了する。']},
+{id:'flow-going-home',name:'帰り：方向と食事から広げる',lines:['どこ行くの？ もう帰り？','今日は仕事？遊んでた？ 楽しい1日だった？','どっち方面に帰るの？ 俺は○○方面。ご飯はもう食べた？','方向と時間が合えば「少しだけ一緒に歩こう」「まだなら近くで食べよう」と提案する。','予定がある場合は時間を尊重し、会話が良ければ「今度ご飯行こう」と連絡先交換へ進む。']},
+{id:'flow-shopping',name:'買い物中：目的と終了後の予定',lines:['どこ行くの？ 買い物？','何を買いに行くの？ 服？プレゼント？','俺が男目線で選ぼうか（笑）。買い物が終わったら何するの？','時間があれば「終わったら30分だけお茶かご飯に行こう」と具体的に提案する。','時間がない場合は今度の約束か連絡先交換。反応が悪ければその場で終了する。']},
+{id:'flow-rain',name:'雨の日：濡れない場所へ',lines:['雨すごいね。どこまで行くの？','傘がなければ「入る？」、傘があれば距離を保って「濡れない所で少し話さない？」','移動に同意してくれたら「今日は何してたの？」と状況を聞く。','雨宿りを理由に「近くでコーヒーでも飲もう」と短時間の提案をする。','相手の傘や身体には触れない。急いでいる・断られた場合はすぐ終了する。']},
+{id:'flow-meeting-stand',name:'待ち合わせ場所：到着までの時間',lines:['ごめん、待った？……俺じゃなかったか（笑）。待ち合わせ？','女友達？男友達？ 何時に来る予定？','30分ほど余裕があるなら「来るまで近くで飲み物飲もう。連絡が来たらすぐ解散で」と伝える。','すぐ来る場合は「よくこの辺で遊ぶ？ 今度ご飯行こう」と未来の提案に切り替える。','相手が迷う、嫌がる、時間が読めない場合は無理に動かさず終了する。']},
+{id:'flow-meeting-walk',name:'待ち合わせへ移動中：歩きながら',lines:['どこ行くの？ 待ち合わせ？','女友達？男友達？ 何時待ち合わせなの？','歩く方向が同じなら「途中まで一緒に行こう」と並行トークへ移る。','時間に余裕があれば「来るまで30分だけお茶しよう。連絡が来たら解散で」と提案する。','すぐ来る・方向が違う場合は、会話が良ければ今度の約束か連絡先交換へ進む。']},
+{id:'flow-work',name:'仕事前：開始時刻を先に確認',lines:['どこ行くの？ 仕事？ キャッチやスカウトじゃないよ（笑）。','何時から？ 職場はこの近く？','30分以上あるなら「仕事に遅れない範囲で、近くで飲み物だけどう？」','すぐ仕事なら「邪魔できないから、今度ご飯行こう」と連絡先交換へ切り替える。','時間がない・断られた場合は「仕事頑張って」で終了し、遅刻につながる提案はしない。']},
+{id:'flow-phone',name:'電話中：相手の通話を優先',lines:['斜め前の距離から軽く手を振り、相手がこちらを見るか確認する。','反応があれば小声で「重要な電話？」と確認する。','友人との通話で、本人が自分から切る・保留する場合だけ「ありがとう。タイプで声かけた」と続ける。','今は何しているところ？ 通話後はどこへ行くの？','仕事・緊急・切れない通話、無反応の場合はそのまま終了する。電話を切るよう強要しない。']},
+{id:'flow-invite',name:'連れ出し：食事・飲み物の二択',lines:['飯はもう食べた？ それとも喉渇いてない？','食べていなければご飯、食後ならコーヒーやデザートを提案する。','「近くで30分だけ」「○時まで」と場所と時間を具体的にする。','迷っている場合は一度だけ「難しければ今度でも大丈夫」と選びやすくする。','明確な拒否なら終了。会話が良く時間だけ合わない場合は連絡先交換へ切り替える。']},
+{id:'flow-contact',name:'連れ出し不成立後：連絡先交換',lines:['今日は難しそうだね。会話は楽しかったから、よかったらLINE交換しよう。','またお互い暇なときに、ご飯かお茶に行こう。何系の店が好き？','交換に前向きなら「名前は○○。何て登録したらいい？」とその場で確認する。','交換後は「今日はありがとう。○○の話また聞かせて」と短く印象を残す。','迷い・拒否があれば交換を迫らず「ありがとう、気をつけて」で終了する。']},
+{id:'flow-no-response',name:'無反応：一度だけ意図を明確化',lines:['斜め前で距離を取り「ごめん、タイプだったから声かけた」と目的を短く伝える。','一度目に目が合ったら「スカウトやキャッチじゃないよ。今どこ行くところ？」','返答があれば、相手の言葉を拾って帰り・仕事・買い物・待ち合わせのパターンへ移る。','返答がなくても、聞こえていない可能性を考えて一度だけ明るい声で確認する。','顔を背ける、距離を取る、二度目も無反応、明確な拒否なら追わずに終了する。']}
+];
 const CHIBA_RULES=`1｜自分から行かなければ何も始まらない
 2｜「断られる」は呼吸と同じ
 3｜待たない。常に自分の時計で動く
@@ -292,8 +306,8 @@ const CHIBA_RULES=`1｜自分から行かなければ何も始まらない
 259｜楽しいことも、幸せな思い出も、辛いことも、悲しいことも、涙の別れも、罪悪感も、すべてが詰まったフォルダを沢山抱えながら生きていく
 260｜「慣れて大胆になる」これが成功のゴールデンルート
 261｜完璧な恋愛があるかはわからないが、完璧だと思う瞬間は何度もある`.split('\n').map(line=>{const [number,...text]=line.split('｜');return{number:Number(number),text:text.join('｜')}});
-const clone=v=>JSON.parse(JSON.stringify(v));const defaults=()=>({version:5,locations:['千葉駅'],place:'千葉駅',days:{},reviews:{},quotes:[],phrases:[],practice:clone(DEFAULT_PRACTICE),moods:clone(DEFAULT_MOODS),checks:{},checkDate:'',draft:{name:'',lines:['','','','',''],editId:null}});
-function load(){try{const obj=JSON.parse(localStorage.getItem(STORAGE));return obj&&obj.version===5?{...defaults(),...obj}:defaults()}catch{return defaults()}}
+const clone=v=>JSON.parse(JSON.stringify(v));const defaults=()=>({version:5,locations:['千葉駅'],place:'千葉駅',days:{},reviews:{},quotes:[],phrases:clone(DEFAULT_PHRASES),flowPackVersion:1,practice:clone(DEFAULT_PRACTICE),moods:clone(DEFAULT_MOODS),checks:{},checkDate:'',draft:{name:'',lines:['','','','',''],editId:null}});
+function load(){try{const obj=JSON.parse(localStorage.getItem(STORAGE));if(!obj||obj.version!==5)return defaults();const merged={...defaults(),...obj};if(!Number(obj.flowPackVersion)){const existing=Array.isArray(obj.phrases)?obj.phrases:[];const ids=new Set(existing.map(p=>p&&p.id));merged.phrases=[...existing,...clone(DEFAULT_PHRASES.filter(p=>!ids.has(p.id)))];merged.flowPackVersion=1}return merged}catch{return defaults()}}
 let data=load();const $=id=>document.getElementById(id);let undoStack=[],lastQuote=-1,lastPhrase=-1,lastRule=-1;let activeDate='';let editingReviewKey='';const dateNow=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};const keyFor=(date,place)=>JSON.stringify([date,place]);
 function save(){try{localStorage.setItem(STORAGE,JSON.stringify(data));return true}catch{alert('保存容量が不足しているか、ブラウザで保存できません。バックアップを取ってください。');return false}}
 function ensureLocations(){data.locations=[...new Set([...(Array.isArray(data.locations)?data.locations:[]),data.place||'千葉駅'])].filter(Boolean);if(!data.locations.length)data.locations=['千葉駅'];if(!data.locations.includes(data.place))data.place=data.locations[0]}
